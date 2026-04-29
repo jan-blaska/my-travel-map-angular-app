@@ -1,0 +1,11 @@
+<div class="home">
+  <app-country-panel
+    [visitedCountries]="visitedCountries()"
+    (countryAdded)="addCountry($event)"
+    (countryRemoved)="removeCountry($event)"
+  />
+  <app-world-map
+    [visitedCountryIds]="visitedCountryIds()"
+    (countryToggled)="toggleCountry($event)"
+  />
+</div>

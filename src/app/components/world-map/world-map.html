@@ -1,0 +1,16 @@
+<div class="map-container">
+  <svg
+    #mapSvg
+    [attr.viewBox]="'0 0 960 500'"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    aria-label="Interactive world map. Click a country to mark it as visited. Scroll to zoom, drag to pan."
+  ></svg>
+  <div #tooltip class="map-tooltip" role="tooltip" aria-hidden="true"></div>
+  <div class="map-hint" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+    </svg>
+    Click a country to toggle visited &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Drag to pan
+  </div>
+</div>
