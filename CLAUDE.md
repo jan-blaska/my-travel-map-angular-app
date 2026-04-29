@@ -1,3 +1,42 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
+```bash
+npm start          # dev server at http://localhost:4200
+npm run build      # production build
+npm run watch      # dev build with watch mode
+npm test           # run tests (Vitest via Angular CLI)
+```
+
+Generate a new component (automatically uses SCSS):
+```bash
+npx ng generate component <name>
+```
+
+Run a single test file:
+```bash
+npx ng test --include="src/app/some.spec.ts"
+```
+
+## Architecture
+
+This is a **standalone-component Angular 21** app — there are no NgModules. Every component declares its own `imports` array directly.
+
+Key wiring:
+- `src/main.ts` — bootstraps the app with `bootstrapApplication(App, appConfig)`
+- `src/app/app.config.ts` — application-level providers (router, global error listeners)
+- `src/app/app.routes.ts` — route definitions (extend here for new routes; use lazy loading)
+- `src/app/app.ts` — root component
+
+Static assets go in `public/`. Global styles live in `src/styles.scss`.
+
+**Testing** uses Vitest (configured via `@angular/build:unit-test`) with `TestBed` for Angular component tests.
+
+---
+
 You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## TypeScript Best Practices
