@@ -2,6 +2,7 @@ import { Injectable, effect, inject, signal } from '@angular/core';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthService } from './auth.service';
+import { COUNTRY_NAME_BY_ID } from '../data/countries';
 
 @Injectable({ providedIn: 'root' })
 export class TravelDataService {
@@ -23,11 +24,11 @@ export class TravelDataService {
   private async loadCountries(uid: string): Promise<void> {
     const snap = await getDoc(doc(db, 'users', uid));
     const ids: string[] = snap.exists() ? (snap.data()['visitedCountries'] ?? []) : [];
-    this.visitedIds.set(new Set(ids));
+    const normalized = ids.map(id => String(Number(id)));
+    this.visitedIds.set(new Set(normalized.filter(id => COUNTRY_NAME_BY_ID.has(id))));
   }
 
   async toggleCountry(id: string): Promise<void> {
-    if (!this.authService.currentUser()) return;
     this.visitedIds.update(ids => {
       const next = new Set(ids);
       next.has(id) ? next.delete(id) : next.add(id);
@@ -37,13 +38,11 @@ export class TravelDataService {
   }
 
   async addCountry(id: string): Promise<void> {
-    if (!this.authService.currentUser()) return;
     this.visitedIds.update(ids => new Set([...ids, id]));
     await this.persist();
   }
 
   async removeCountry(id: string): Promise<void> {
-    if (!this.authService.currentUser()) return;
     this.visitedIds.update(ids => {
       const next = new Set(ids);
       next.delete(id);

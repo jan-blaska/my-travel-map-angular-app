@@ -164,6 +164,20 @@ export const COUNTRIES: Country[] = [
   { id: '887', name: 'Yemen' },
   { id: '894', name: 'Zambia' },
   { id: '716', name: 'Zimbabwe' },
+  { id: '10', name: 'Antarctica' },
+  { id: '44', name: 'Bahamas' },
+  { id: '238', name: 'Falkland Islands' },
+  { id: '242', name: 'Fiji' },
+  { id: '260', name: 'French Southern Territories' },
+  { id: '442', name: 'Luxembourg' },
+  { id: '499', name: 'Montenegro' },
+  { id: '540', name: 'New Caledonia' },
+  { id: '275', name: 'Palestine' },
+  { id: '630', name: 'Puerto Rico' },
+  { id: '688', name: 'Serbia' },
+  { id: '90', name: 'Solomon Islands' },
+  { id: '548', name: 'Vanuatu' },
+  { id: '732', name: 'Western Sahara' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export const COUNTRY_NAME_BY_ID = new Map<string, string>(

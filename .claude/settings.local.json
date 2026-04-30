@@ -4,7 +4,14 @@
       "Bash(npm run:*)",
       "Bash(npm start:*)",
       "Bash(npm install *)",
-      "Bash(npx ng *)"
+      "Bash(npx ng *)",
+      "Bash(curl -s http://localhost:4200)",
+      "Bash(curl -s \"http://localhost:4200\")",
+      "Bash(curl -s \"http://localhost:4200/styles.css\")",
+      "Bash(curl -s \"http://localhost:4200/main.js\")",
+      "Bash(grep -oP '\\\\\\\\[_nghost-%COMP%\\\\\\\\][^,]+')",
+      "Bash(node *)",
+      "Bash(git rm *)"
     ]
   }
 }

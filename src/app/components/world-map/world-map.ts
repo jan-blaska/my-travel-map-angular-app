@@ -28,6 +28,8 @@ const COLOR_GRATICULE = '#93c5fd';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFeature = any;
 
+const toId = (raw: unknown): string => String(Number(raw));
+
 @Component({
   selector: 'app-world-map',
   templateUrl: './world-map.html',
@@ -106,13 +108,13 @@ export class WorldMapComponent implements AfterViewInit, OnDestroy {
       .join('path')
       .attr('class', 'country')
       .attr('d', (d: AnyFeature) => path(d) ?? '')
-      .attr('fill', (d: AnyFeature) => (ids.has(String(d.id)) ? COLOR_VISITED : COLOR_UNVISITED))
+      .attr('fill', (d: AnyFeature) => (ids.has(toId(d.id)) ? COLOR_VISITED : COLOR_UNVISITED))
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 0.5)
       .attr('stroke-linejoin', 'round')
       .style('cursor', 'pointer')
       .on('mousemove', (event: MouseEvent, d: AnyFeature) => {
-        const name = COUNTRY_NAME_BY_ID.get(String(d.id));
+        const name = COUNTRY_NAME_BY_ID.get(toId(d.id));
         if (!name) return;
         tooltip
           .style('display', 'block')
@@ -121,18 +123,20 @@ export class WorldMapComponent implements AfterViewInit, OnDestroy {
           .text(name);
       })
       .on('mouseover', (event: MouseEvent, d: AnyFeature) => {
-        const visited = this.visitedCountryIds().has(String(d.id));
+        const visited = this.visitedCountryIds().has(toId(d.id));
         d3.select(event.currentTarget as SVGPathElement)
           .attr('fill', visited ? COLOR_HOVER_VISITED : COLOR_HOVER_UNVISITED);
       })
       .on('mouseout', (event: MouseEvent, d: AnyFeature) => {
-        const visited = this.visitedCountryIds().has(String(d.id));
+        const visited = this.visitedCountryIds().has(toId(d.id));
         d3.select(event.currentTarget as SVGPathElement)
           .attr('fill', visited ? COLOR_VISITED : COLOR_UNVISITED);
         tooltip.style('display', 'none');
       })
       .on('click', (_event: MouseEvent, d: AnyFeature) => {
-        this.zone.run(() => this.countryToggled.emit(String(d.id)));
+        const id = toId(d.id);
+        if (!COUNTRY_NAME_BY_ID.has(id)) return;
+        this.zone.run(() => this.countryToggled.emit(id));
       });
 
     // Zoom & pan
@@ -148,7 +152,7 @@ export class WorldMapComponent implements AfterViewInit, OnDestroy {
 
   private updateColors(ids: Set<string>): void {
     this.countryPaths?.attr('fill', (d: AnyFeature) =>
-      ids.has(String(d.id)) ? COLOR_VISITED : COLOR_UNVISITED
+      ids.has(toId(d.id)) ? COLOR_VISITED : COLOR_UNVISITED
     );
   }
 }
