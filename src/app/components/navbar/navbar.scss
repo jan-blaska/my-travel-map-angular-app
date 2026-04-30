@@ -8,6 +8,8 @@
   color: #ffffff;
   flex-shrink: 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 100;
 }
 
 .navbar-brand {
@@ -22,17 +24,188 @@
   }
 }
 
-.navbar-stats {
-  .stats-badge {
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stats-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+// ── Sign-in button ────────────────────────────────────────────────────────────
+.signin-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #3c4043;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    background: #f8f8f8;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+}
+
+// ── Auth loading spinner ──────────────────────────────────────────────────────
+.auth-loading {
+  display: flex;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+}
+
+.spinner {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── User menu (logged-in) ─────────────────────────────────────────────────────
+.user-menu {
+  position: relative;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 4px 10px 4px 4px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+
+  &--initials {
     display: flex;
     align-items: center;
-    gap: 5px;
-    background: rgba(34, 197, 94, 0.2);
-    border: 1px solid rgba(34, 197, 94, 0.4);
-    color: #86efac;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8125rem;
-    font-weight: 500;
+    justify-content: center;
+    background: #3b82f6;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+  flex-shrink: 0;
+
+  &--open {
+    transform: rotate(180deg);
+  }
+}
+
+// ── Dropdown ──────────────────────────────────────────────────────────────────
+.dropdown-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 11;
+  min-width: 148px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  padding: 4px;
+  list-style: none;
+  margin: 0;
+  animation: dropdown-in 0.12s ease;
+}
+
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-align: left;
+
+  &--signout {
+    color: #dc2626;
+
+    &:hover {
+      background: #fef2f2;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #dc2626;
+      outline-offset: -2px;
+    }
   }
 }

@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
-import { Country, COUNTRIES } from '../../data/countries';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
+import { COUNTRIES, Country } from '../../data/countries';
 import { WorldMapComponent } from '../../components/world-map/world-map';
 import { CountryPanelComponent } from '../../components/country-panel/country-panel';
+import { TravelDataService } from '../../services/travel-data.service';
 
 @Component({
   selector: 'app-home',
@@ -11,35 +12,23 @@ import { CountryPanelComponent } from '../../components/country-panel/country-pa
   imports: [WorldMapComponent, CountryPanelComponent],
 })
 export class HomeComponent {
-  private _visitedIds = signal<Set<string>>(new Set());
+  private travelData = inject(TravelDataService);
 
-  protected visitedCountryIds = this._visitedIds.asReadonly();
+  protected visitedCountryIds = this.travelData.visitedIds;
 
   protected visitedCountries = computed(() =>
-    COUNTRIES.filter(c => this._visitedIds().has(c.id))
+    COUNTRIES.filter(c => this.travelData.visitedIds().has(c.id))
   );
 
   protected addCountry(country: Country): void {
-    this._visitedIds.update(ids => new Set([...ids, country.id]));
+    this.travelData.addCountry(country.id);
   }
 
   protected removeCountry(country: Country): void {
-    this._visitedIds.update(ids => {
-      const next = new Set(ids);
-      next.delete(country.id);
-      return next;
-    });
+    this.travelData.removeCountry(country.id);
   }
 
   protected toggleCountry(id: string): void {
-    this._visitedIds.update(ids => {
-      const next = new Set(ids);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
+    this.travelData.toggleCountry(id);
   }
 }
